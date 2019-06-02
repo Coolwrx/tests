@@ -13,6 +13,7 @@ padavan 除系统的关键目录以外其他的目录均为 tmpfs ，这和 RamD
 >https://www.runoob.com/w3cnote/git-guide.html
 
 ## vs code 连接 GitHub
+
 ### 安装 git
 >https://www.git-scm.com/download/
 
@@ -32,5 +33,25 @@ cd 到想要部署本地仓库的目录
     git config --global user.mail example   #设置用于提交更改的邮件地址
     #上面两个设置仅用于标识，不一定要是 GitHub 账号的名字和邮件地址
 
-    git initd   #初始化当前目录，会新建一个 .git 的隐藏文件夹
-    git remote add origin git@github.com:github用户名/项目名    #连接到 GitHub 的对应项目上
+    git initd   #初始化当前目录，会新建一个名为 .git 的隐藏文件夹
+
+    git remote add [name] git@github.com:[github用户名/项目名]    #连接到 GitHub 的对应项目上
+    #[name]字段可以自己指定，用于本地标识，可以执行 git remote 命令来查看项目列表
+    #此行代码的作用是向 .git 文件夹下的 config 文件中添加参数
+
+    git pull [name] [branch]    #拉取远程服务器的项目内容
+    #[name] 就是刚才指定的本地标识，[branch] 字段为分支名称，主要分支是 master
+    #此行代码将会把整个项目文件复制到本地
+
+完成本地仓库部署，准备推送
+
+推送一共有三个步骤
++ 把文件提交到缓冲区
+
+    + `git add [filename]`  #提交一个
+    + `git add *`               #提交所有
+
++ 实际提交改动并添加改动备注
+    + `git commit -m "备注"`
++ push 到远程服务器
+    + `git push [name] [branch]` 
