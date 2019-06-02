@@ -56,4 +56,6 @@ cd 到想要部署本地仓库的目录
 + push 到远程服务器
     + `git push [name] [branch]` 
 
+push 之前好像要来一句 `git push --set-upstream tests master`，设置什么上游分支，如果报错，这么写就完事了  
+>https://www.jianshu.com/p/82563e6da665
 vs code 集成了 git 插件，可以用 UI 推送
