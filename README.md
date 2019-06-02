@@ -5,5 +5,8 @@ padavan 除系统的关键目录以外其他的目录均为 tmpfs ，这和 RamD
 执行 `mtd_storage.sh save` 来保存更改  
 >https://blog.aofall.com/archives/13.html
 
-# git push 测试
-看到这行应该就是成了
+## git push 测试
+看到这行应该就是成了  
+先放几个链接
+>https://www.runoob.com/manual/git-guide/
+>https://www.runoob.com/w3cnote/git-guide.html
