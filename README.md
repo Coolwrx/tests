@@ -55,3 +55,5 @@ cd 到想要部署本地仓库的目录
     + `git commit -m "备注"`
 + push 到远程服务器
     + `git push [name] [branch]` 
+
+vs code 集成了 git 插件，可以用 UI 推送
