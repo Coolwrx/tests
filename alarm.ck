@@ -1,5 +1,5 @@
 SinOsc x => dac;
-1 => x.gain;
+0 => x.gain;
 float i, ix, low, high, fre;
 1 => i;
 2 => ix;
@@ -17,8 +17,12 @@ while( true ) {
 
 while(true){
     low => fre;
+    0 => i;
+    0 => ix;
+    1/(( high - low )/10) => ix;
     while( fre <= high )
     {
+        i + ix => x.gain;
         fre => x.freq;
         fre + 10 => fre;
         1::ms => now;
