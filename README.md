@@ -60,3 +60,19 @@ push 之前好像要来一句 `git push --set-upstream tests master`，设置什
 >https://www.jianshu.com/p/82563e6da665
 
 vs code 集成了 git 插件，可以用 UI 推送
+
+## GUN bash 脚本相关
+
+装了 git 以后就会自动装一个 bash.exe，加到 PATH 里就可以
+
+路径是 `C:\Program Files\Git\bin`
+
+### Tips
+
+给变量赋值的时候，等号左右不能有空格！
+- a = 0   ×
+- a=0     √
+
+echo 命令用来输出到终端  
+`echo ${a}b` => 0b  
+`${}` 用来标识变量的名称，用空格隔开，写成这样`$a b`也可以，不过空格也会被打印出来
