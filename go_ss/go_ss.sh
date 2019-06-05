@@ -113,7 +113,7 @@ name_same(){
 }
 
 #begin main
-echo "go_ss v.${version} Shadowsocksr manyuser (debain only)
+echo "go_ss v${version} Shadowsocksr manyuser (debain only)
 ------options------
 
 1.say_hi
