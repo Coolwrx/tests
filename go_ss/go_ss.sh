@@ -7,8 +7,11 @@ a="hello"   #等号前后不能有空格
 b="world!"
 echo "${a}$b"
 
-ip=$(wget -qO- -t1 -T2 ipinfo.io/ip)
-echo 本机IP地址为: $ip
+get_ip(){
+    ip=$(wget -qO- -t1 -T2 ipinfo.io/ip)
+    echo 本机IP地址为: $ip
+}
+
 
 Environment_install(){
     apt-get update
@@ -16,5 +19,6 @@ Environment_install(){
     apt-get install git
 }
 
-
-git clone -b manyuser https://github.com/coolwrx/shadowsocksr.git
+ssr_install(){
+    git clone -b manyuser https://github.com/coolwrx/shadowsocksr.git
+}
