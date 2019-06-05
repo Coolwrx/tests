@@ -5,7 +5,7 @@
 
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 
-version='0.1'
+version='0.0.2'
 ssr_folder="/root/shadowsocksr"
 
 
@@ -27,7 +27,7 @@ Environment_install(){
 }
 
 ssr_install(){
-    cd "/root/shadowsocksr"
+    cd "/root"
     if [ ! -d "/shadowsocksr" ]; then
         echo "shadowsocksr folder not found, begin clone from github"
         git clone -b manyuser https://github.com/coolwrx/shadowsocksr.git
@@ -35,6 +35,7 @@ ssr_install(){
         echo "shadowsocksr folder found"
     fi
 
+    cd "~/shadowsocksr"
     bash initcfg.sh
     sed -i "s/API_INTERFACE = 'sspanelv2'/API_INTERFACE = 'mudbjson'/" "userapiconfig.py"
     sed "s/SERVER_PUB_ADDR = '127.0.0.1'/SERVER_PUB_ADDR = '${ip}'/" "userapiconfig.py"
