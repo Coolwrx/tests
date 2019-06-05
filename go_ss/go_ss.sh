@@ -5,7 +5,7 @@
 
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 
-version='0.0.2.4'
+version='0.0.2.5'
 ssr_folder="/root/shadowsocksr"
 
 
@@ -59,6 +59,7 @@ add_user(){
     echo "正在自动添加用户..."
     python mujson_mgr.py -a -u auto_add -p 28593 -k abcd1234 -m aes-128-ctr -O auth_aes128_md5 -o plain
     echo "自动添加用户完成，启动服务..."
+    cd "shadowsocksr"
     ./logrun
     echo "启动成功"
     while true
