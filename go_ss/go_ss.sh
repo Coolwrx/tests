@@ -5,7 +5,7 @@
 
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 
-version='0.0.2'
+version='0.0.2.1'
 ssr_folder="/root/shadowsocksr"
 
 
@@ -38,7 +38,7 @@ ssr_install(){
     cd "shadowsocksr"
     bash initcfg.sh
     sed -i "s/API_INTERFACE = 'sspanelv2'/API_INTERFACE = 'mudbjson'/" "userapiconfig.py"
-    sed "s/SERVER_PUB_ADDR = '127.0.0.1'/SERVER_PUB_ADDR = '${ip}'/" "userapiconfig.py"
+    sed -i "s/SERVER_PUB_ADDR = '127.0.0.1'/SERVER_PUB_ADDR = '${ip}'/" "userapiconfig.py"
     #sed的i参数可以用来修改文件内容，好像不写这个参数是不会改的，引号里的格式是 "s/原文/更改后/"，文件名写最后
     echo "配置完成，是否开始添加用户？y/n: "
     read addnow
