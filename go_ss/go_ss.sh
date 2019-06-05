@@ -35,7 +35,7 @@ ssr_install(){
         echo "shadowsocksr folder found"
     fi
 
-    cd "~/shadowsocksr"
+    cd "shadowsocksr"
     bash initcfg.sh
     sed -i "s/API_INTERFACE = 'sspanelv2'/API_INTERFACE = 'mudbjson'/" "userapiconfig.py"
     sed "s/SERVER_PUB_ADDR = '127.0.0.1'/SERVER_PUB_ADDR = '${ip}'/" "userapiconfig.py"
