@@ -4,9 +4,33 @@
 #进行base64加密后，保存为“oh.txt”，存至ifheart.tk的home目录
 
 #记得把 ssr_install 里，git clone 命令前的井号删掉
+#天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.0.2.6'
-ssr_folder="/root/shadowsocksr"
+version='0.3.1'
+#定义程序文件夹位置
+ssr_root=~/OneDrive/Codes/github/tests/go_ss
+ssr_folder="${ssr_root}/shadowsocksr"
+
+#直接从控制台调用某个函数
+test_function(){
+    echo "输入函数名："
+    read test_function_command
+    ${test_function_command}
+}
+
+#获取用户信息
+get_user_info(){
+    cd "${ssr_folder}"
+    user_info=$(python mujson_mgr.py -l)
+    user_info_num=$(echo "${user_info}"|wc -l)
+    #wc：计算文件的字节数(-c)、行数(-l)、字数(-w)
+    if [ "${#}" != 0 ]; then
+        if [ ${1} == 'show' ]; then
+            echo "${user_info}"
+        fi
+    fi
+}
+
 
 
 say_hi(){
@@ -17,7 +41,12 @@ say_hi(){
 
 get_ip(){
     ip=$(wget -qO- -t1 -T2 ipinfo.io/ip)
-    echo 本机IP地址为: ${ip}
+    if [ ${#} != 0 ]; then
+        if [ ${1} == 'show' ]; then
+            echo 本机IP地址为: ${ip}
+        fi
+    fi
+    
 }
 
 Environment_install(){
@@ -27,7 +56,7 @@ Environment_install(){
 }
 
 ssr_install(){
-    cd "/root"
+    cd ${ssr_root}
     if [ ! -d "shadowsocksr" ]; then
         echo "shadowsocksr folder not found, begin clone from github"
         git clone -b manyuser https://github.com/coolwrx/shadowsocksr.git
@@ -35,7 +64,7 @@ ssr_install(){
         echo "shadowsocksr folder found"
     fi
 
-    cd "shadowsocksr"
+    cd "${ssr_folder}"
     bash initcfg.sh
     sed -i "s/API_INTERFACE = 'sspanelv2'/API_INTERFACE = 'mudbjson'/" "userapiconfig.py"
     get_ip  #先有鸡还是先有蛋？
@@ -53,24 +82,33 @@ ssr_install(){
         exit
         ;;
     esac
+    
 }
 
 add_user(){
+    get_user_info
     echo "正在自动添加用户..."
-    python mujson_mgr.py -a -u auto_add -p 28593 -k abcd1234 -m aes-128-ctr -O auth_aes128_md5 -o plain
+    name_check "auto_add"
+    if [ $? == 0 ]; then
+        python mujson_mgr.py -a -u auto_add -p 28593 -k abcd1234 -m aes-128-ctr -O auth_aes128_md5 -o plain
+    else
+        echo "auto_add 已存在"
+    fi
     echo "自动添加用户完成，启动服务..."
-    ls
     ./logrun.sh
     echo "启动成功"
+
+    #输入用户名后调用查重函数
+    #应该把查重和配置写到一个函数里，add_user只做交互，否则add_user函数会很长
     while true
     do
         echo "设置用户名："
         read new_name
-        name_same
-        if [ ${name_check} == "ok" ]; then
+        name_check "${new_name}"
+        if [ $? == 0 ]; then
             break
         else
-            echo "重复了"
+            echo "用户名重复，请重试"
         fi
     done
         echo "端口"
@@ -103,10 +141,26 @@ add_user(){
     
         echo "$new_method"
 
+        echo "ssr://${new_method}:${new_password}@${ip}:${port}:plain:${plain_x}|base64"
 }
 
 
-#用户名查重模块
+#用户名查重函数
+#用name_check   有重复返回1，无重复返回0
+name_check(){
+    #echo 'Flag name_check'
+    for ((i=1; i<="${user_info_num}"; i++))
+    do
+        jiakuang=$(echo "[${1}]")   #字面意思，加个括号
+        if [ "${jiakuang}" == "$(echo "${user_info}"|sed -n "${i}p"|awk '{print $2}')" ]; then
+            return 1
+            break
+        fi
+    done
+    return 0
+}
+
+#not used
 name_same(){
     echo "name_same"
     if [ ${new_name} == "flag" ]; then
@@ -116,26 +170,56 @@ name_same(){
     fi
 }
 
+ssr_subscribe(){
+    apt-get install nginx
+}
+
+help(){
+    echo 'help manu'
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #begin main
 echo "go_ss v${version} Shadowsocksr manyuser (debain only)
 ------options------
-
+0.test_function
 1.say_hi
 2.get_ip
 3.Environment install
 4.ssr_install
+5.ssr_subscribe
+-------other-------
+Enter "help" to get help
 "
 
 echo "choose a option: "
 read command
 case $command in
+    0) test_function
+    ;;
     1) say_hi
     ;;
-    2) get_ip
+    2) get_ip "show"
     ;;
     3) Environment_install
     ;;
     4) ssr_install
+    ;;
+    5) ssr_subscribe
+    ;;
+    "help") help
     ;;
     *) echo 'fuck you'
     ;;
