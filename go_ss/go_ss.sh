@@ -6,10 +6,16 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.1'
+version='0.3.2'
 #定义程序文件夹位置
-ssr_root=~/OneDrive/Codes/github/tests/go_ss
+#ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
+ssr_root="~"
+#web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
+web_root="/home/web"
+nginx_root="/etc/nginx"
+
 ssr_folder="${ssr_root}/shadowsocksr"
+
 
 #直接从控制台调用某个函数
 test_function(){
@@ -41,6 +47,9 @@ say_hi(){
 
 get_ip(){
     ip=$(wget -qO- -t1 -T2 ipinfo.io/ip)
+    if [ -z ${ip} ]; then
+        ip='127.0.0.1'
+    fi
     if [ ${#} != 0 ]; then
         if [ ${1} == 'show' ]; then
             echo 本机IP地址为: ${ip}
@@ -141,7 +150,7 @@ add_user(){
     
         echo "$new_method"
 
-        echo "ssr://${new_method}:${new_password}@${ip}:${port}:plain:${plain_x}|base64"
+        #show_sslink "${new_name}"
 }
 
 
@@ -169,11 +178,78 @@ name_same(){
     fi
 }
 
+show_sslink(){
+    get_ip
+    if [ ${#} == 0 ]; then
+        echo "No input, use 'auto_add'"
+        sslink_user="auto_add"
+    else
+        sslink_user="${1}"
+        echo "Use ${sslink_name}"
+    fi
+
+    cd "${ssr_folder}"
+    sslink_user_info=$(python mujson_mgr.py -l -u ${sslink_user})
+    #echo "${sslink_user_info}"
+    sslink_port=$(echo "${sslink_user_info}"|sed -n "3p"|awk '{print $3}')
+    sslink_method=$(echo "${sslink_user_info}"|sed -n "4p"|awk '{print $3}')
+    sslink_passwd=$(echo "${sslink_user_info}"|sed -n "5p"|awk '{print $3}')
+    sslink_passwd_64=$(echo "${sslink_passwd}" | base64)
+    sslink_protocol=$(echo "${sslink_user_info}"|sed -n "6p"|awk '{print $3}')
+    sslink_obfs=$(echo "${sslink_user_info}"|sed -n "7p"|awk '{print $3}')
+    sslink=$(echo "ssr://${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
+    #echo "${sslink}"
+    web_sslink=$(echo ${sslink} | base64)
+    cd "${web_root}"
+    #不能用echo，会自动换行
+    #双引号会影响输出结果
+    #echo "${web_sslink}" > oh.txt 超过76个字符就会自动换行
+    #echo ${web_sslink} > oh.txt 超过76个字符就会自动加空格
+    #echo "${web_sslink}"
+    printf "%s" ${web_sslink} > oh.txt
+    echo "" >> oh.txt
+}
+
 ssr_subscribe(){
     echo "Install nginx?(y/n)"
     read install_nginx
     if [ "${install_nginx}" = 'y' ]; then
         apt-get install nginx
+    fi
+
+    cd "${nginx_root}/sites-enabled"
+    if [ ! -f "ss_nginx" ]; then
+        wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
+    fi
+
+
+    cd "${ssr_folder}"
+    get_user_info
+    if [ ${user_info_num} > 0 ]; then
+        echo "${user_info}"
+        echo -n "choose a user: "
+        while true
+        do
+            read input
+            if [ "${input}" = 'y' ]; then
+                echo 'exit'
+                break
+            fi
+            name_check "${input}"
+            if [ $? == 0 ]; then
+                echo -e "User not found, exit?(y/another name)"
+            elif [ $? == 1 ]; then
+                echo "User ${input} found"
+                show_sslink "${input}"  #写入到网站根目录
+                break
+            fi
+        done
+    else
+        echo -n "No user found, set one?(y/n)"
+        read input
+        if [ "${input}" = 'y' ]; then
+            add_user
+        fi
     fi
 
 }
