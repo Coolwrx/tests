@@ -6,12 +6,12 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.2'
+version='0.3.3'
 #定义程序文件夹位置
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
-ssr_root="~"
+ssr_root=~
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
-web_root="/home/web"
+web_root="/home/ss"
 nginx_root="/etc/nginx"
 
 ssr_folder="${ssr_root}/shadowsocksr"
