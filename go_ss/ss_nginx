@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name ifheart.ss;
+    server_name ifheart.tk;
     root /home/ss;
     index index.html;
 }

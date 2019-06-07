@@ -6,13 +6,14 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.3'
+version='0.3.4'
 #定义程序文件夹位置
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 ssr_root=~
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
 web_root="/home/ss"
 nginx_root="/etc/nginx"
+doname="ifheart.tk"
 
 ssr_folder="${ssr_root}/shadowsocksr"
 
@@ -219,6 +220,10 @@ ssr_subscribe(){
 
     cd "${nginx_root}/sites-enabled"
     if [ ! -f "ss_nginx" ]; then
+        wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
+    else
+        echo 'ss_nginx found, rm it...'
+        rm "ss_nginx"
         wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
     fi
 
