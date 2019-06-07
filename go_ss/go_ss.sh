@@ -159,7 +159,6 @@ name_check(){
     done
     return 0
 }
-
 #not used
 name_same(){
     echo "name_same"
@@ -171,7 +170,12 @@ name_same(){
 }
 
 ssr_subscribe(){
-    apt-get install nginx
+    echo "Install nginx?(y/n)"
+    read install_nginx
+    if [ "${install_nginx}" = 'y' ]; then
+        apt-get install nginx
+    fi
+
 }
 
 help(){
