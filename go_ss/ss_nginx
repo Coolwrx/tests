@@ -1,0 +1,6 @@
+server {
+    listen 80;
+    server_name ifheart.ss;
+    root /home/ss;
+    index index.html;
+}
