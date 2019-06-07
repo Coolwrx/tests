@@ -201,6 +201,10 @@ show_sslink(){
     sslink=$(echo "ssr://${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
     #echo "${sslink}"
     web_sslink=$(echo ${sslink} | base64)
+
+    if [ ! -d "${web_root}" ]; then
+        mkdir "${web_root}"
+    fi
     cd "${web_root}"
     #不能用echo，会自动换行
     #双引号会影响输出结果
