@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.4'
+version='0.3.5'
 #定义程序文件夹位置
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 ssr_root=~
@@ -231,6 +231,7 @@ ssr_subscribe(){
         wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
     fi
 
+    /etc/init.d/nginx restart
 
     cd "${ssr_folder}"
     get_user_info
