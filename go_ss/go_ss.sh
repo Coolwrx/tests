@@ -6,12 +6,12 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.8'
+version='0.3.9'
 #定义程序文件夹位置
 ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
-#ssr_root=~
+ssr_root=~
 web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
-#web_root="/home/ss"
+web_root="/home/ss"
 nginx_root="/etc/nginx"
 doname="ifheart.tk"
 
@@ -162,12 +162,12 @@ add_user(){
         echo "密码"
         read new_password
         echo "加密协议
-        ${Green_font_prefix}1.${Font_color_suffix} origin
-        ${Green_font_prefix}2.${Font_color_suffix} auth_sha1_v4
-        ${Green_font_prefix}3.${Font_color_suffix} auth_aes128_md5
-        ${Green_font_prefix}4.${Font_color_suffix} auth_aes128_sha1
-        ${Green_font_prefix}5.${Font_color_suffix} auth_chain_a
-        ${Green_font_prefix}6.${Font_color_suffix} auth_chain_b"
+        1 origin
+        2 auth_sha1_v4
+        3 auth_aes128_md5
+        4 auth_aes128_sha1
+        5 auth_chain_a
+        6 auth_chain_b"
         read new_method_num
         case ${new_method_num} in
             1)
@@ -333,8 +333,8 @@ echo "go_ss v${version} Shadowsocksr manyuser (debain only)
 -------other-------
 Enter "help" to get help
 "
+display_color "choose a option: " g
 
-echo "choose a option: "
 read command
 case $command in
     0) test_function
