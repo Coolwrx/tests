@@ -6,17 +6,22 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.7'
+version='0.3.8'
 #定义程序文件夹位置
 ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
-ssr_root=~
+#ssr_root=~
 web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
-web_root="/home/ss"
+#web_root="/home/ss"
 nginx_root="/etc/nginx"
 doname="ifheart.tk"
 
 ssr_folder="${ssr_root}/shadowsocksr"
 
+RED_COLOR='\E[1;31m'  
+YELOW_COLOR='\E[1;33m' 
+BLUE_COLOR='\E[1;34m'  
+GREEN_COLOR="\033[32m"
+RESET='\E[0m'
 
 #直接从控制台调用某个函数
 test_function(){
@@ -36,6 +41,37 @@ get_user_info(){
             echo "${user_info}"
         fi
     fi
+}
+
+display_color(){
+    display_text=${1}
+    display_text_color=${2}
+    
+    if [ "${#}" != 0 ]; then
+        #if [ "${#}" = 1]; then
+        #    display_text_color="${RED_COLOR}"
+        #fi
+
+        case "${display_text_color}" in
+        'r')
+        display_text_color="${RED_COLOR}"
+        ;;
+        'g')
+        display_text_color="${GREEN_COLOR}"
+        ;;
+        'y')
+        display_text_color="${YELOW_COLOR}"
+        ;;
+        'b')
+        display_text_color="${BLUE_COLOR}"
+        ;;
+        *)
+        display_text_color="${RED_COLOR}"
+        esac
+    fi
+
+    echo -e "${display_text_color}${display_text}${RESET}"
+
 }
 
 
@@ -182,11 +218,11 @@ name_same(){
 show_sslink(){
     get_ip
     if [ ${#} == 0 ]; then
-        echo "No input, use 'auto_add'"
+        display_color "No input, use 'auto_add'"
         sslink_user="auto_add"
     else
         sslink_user="${1}"
-        echo "Use ${sslink_name}"
+        display_color "Use ${sslink_user}"
     fi
 
     cd "${ssr_folder}"
@@ -203,7 +239,7 @@ show_sslink(){
     #群组名ifheart，节点名称LA，没加自定义功能
     sslink_raw_64=$(echo -n ${sslink_raw} | base64)
     sslink="ssr://${sslink_raw_64}"
-    printf "%s" ${sslink}
+    #printf "%s" ${sslink}
     web_sslink=$(printf "%s" ${sslink} | base64)
 
     if [ ! -d "${web_root}" ]; then
@@ -220,7 +256,7 @@ show_sslink(){
 }
 
 ssr_subscribe(){
-    echo "Install nginx?(y/n)"
+    display_color "Install nginx?(y/n)"
     read install_nginx
     if [ "${install_nginx}" = 'y' ]; then
         apt-get install nginx
@@ -230,7 +266,7 @@ ssr_subscribe(){
     if [ ! -f "ss_nginx" ]; then
         wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
     else
-        echo 'ss_nginx found, rm it...'
+        display_color 'ss_nginx found, update it...'
         rm "ss_nginx"
         wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
     fi
@@ -240,7 +276,7 @@ ssr_subscribe(){
     cd "${ssr_folder}"
     get_user_info
     if [ ${user_info_num} > 0 ]; then
-        echo "${user_info}"
+        display_color "${user_info}"
         echo -n "choose a user: "
         while true
         do
