@@ -6,12 +6,13 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.3.9'
+version='0.4.0'
 #定义程序文件夹位置
 ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
-ssr_root=~
 web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
-web_root="/home/ss"
+
+#ssr_root=~
+#web_root="/home/ss"
 nginx_root="/etc/nginx"
 doname="ifheart.tk"
 
@@ -43,6 +44,8 @@ get_user_info(){
     fi
 }
 
+#显示函数，参数1为要显示的文本内容，参数2是颜色（默认y）
+#颜色：r, g, b, y
 display_color(){
     display_text=${1}
     display_text_color=${2}
@@ -73,8 +76,6 @@ display_color(){
     echo -e "${display_text_color}${display_text}${RESET}"
 
 }
-
-
 
 say_hi(){
     a="hello"   #等号前后不能有空格
@@ -242,17 +243,20 @@ show_sslink(){
     #printf "%s" ${sslink}
     web_sslink=$(printf "%s" ${sslink} | base64)
 
-    if [ ! -d "${web_root}" ]; then
-        mkdir "${web_root}"
-    fi
-    cd "${web_root}"
+    #if [ ! -d "${web_root}" ]; then
+    #    mkdir "${web_root}"
+    #fi
+    #cd "${web_root}"
+
     #不能用echo，会自动换行
     #双引号会影响输出结果
     #echo "${web_sslink}" > oh.txt 超过76个字符就会自动换行
     #echo ${web_sslink} > oh.txt 超过76个字符就会自动加空格
     #echo "${web_sslink}"
-    printf "%s" ${web_sslink} > oh.txt
-    echo "" >> oh.txt
+
+    #功能隔离，写文件的语句放到ssr_subscribe里，用全局变量传递信息
+    #printf "%s" ${web_sslink} > oh.txt
+    #echo "" >> oh.txt   #加一个换行
 }
 
 ssr_subscribe(){
@@ -281,20 +285,32 @@ ssr_subscribe(){
         while true
         do
             read input
+            #这样写有bug，用户名不能是'y'，y被作为break整个循环的参数
             if [ "${input}" = 'y' ]; then
                 echo 'exit'
                 break
             fi
-            name_check "${input}"
+            name_check "${input}"   #检查用户名是否存在
             if [ $? == 0 ]; then
                 echo -e "User not found, exit?(y/another name)"
             elif [ $? == 1 ]; then
                 echo "User ${input} found"
-                show_sslink "${input}"  #写入到网站根目录
+                show_sslink "${input}"
+
+                #写入到网站根目录
+                if [ ! -d "${web_root}" ]; then
+                    mkdir "${web_root}"
+                fi
+                cd "${web_root}"
+
+                printf "%s" ${web_sslink} > oh.txt
+                echo "" >> oh.txt   #加一个换行
+
                 break
             fi
         done
     else
+        #一个用户都没有找到，不是输入的用户没有匹配
         echo -n "No user found, set one?(y/n)"
         read input
         if [ "${input}" = 'y' ]; then
@@ -305,7 +321,8 @@ ssr_subscribe(){
 }
 
 help(){
-    echo 'help manu'
+    echo 'help menu
+    没有帮助，暂时没有，嘻嘻'
 }
 
 
@@ -351,6 +368,6 @@ case $command in
     ;;
     "help") help
     ;;
-    *) echo 'fuck you'
+    *) echo 'glz好好说话'
     ;;
 esac
