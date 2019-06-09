@@ -11,8 +11,8 @@ version='0.4.0'
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
 
-#ssr_root=~
-#web_root="/home/ss"
+ssr_root=~
+web_root="/home/ss"
 nginx_root="/etc/nginx"
 doname="ifheart.tk"
 
