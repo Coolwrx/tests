@@ -11,18 +11,17 @@ call(){
 
 base64_test(){
     x=2
-    echo ${x}
+    #echo ${x}
 
     new_method=1
     new_password=2
     ip=3
     port=4
 
-    echo ${new_method}:${new_password}@${ip}:${port}|base64
+    #echo ${new_method}:${new_password}@${ip}:${port}|base64
 
-    y=OTUuMTc5LjE0OC4xMDg6Mjg1OTM6YXV0aF9hZXMxMjhfbWQ1OmFlcy0xMjgtY3RyOnBsYWluOllXSmpaREV5TXpR
-
-    echo ${y}|base64 -d
+    y=c3NyOi8vMTI3LjAuMC4xOjI4NTkzOmF1dGhfYWVzMTI4X21kNTphZXMtMTI4LWN0cjpwbGFpbjpZV0pqWkRFeU16UUsvP29iZnNwYXJhbT0mcHJvdG9wYXJhbT0mcmVtYXJrcz1URUUmZ3JvdXA9YVdab1pXRnlkQQo=
+    echo ${y} | base64 -d
 }
 
 xcode(){
@@ -51,5 +50,14 @@ xunhuan(){
         fi
     done
 }
-cd "~"
-ls
+
+file(){
+    if [ ! -f "oh.txt" ]; then
+        echo "dd"
+    fi
+    a="sjfldkfsjfdk"
+    echo $a
+    #一个让函数返回字符串的方法
+    #不用return，在函数里写echo，调用的时候写 echo $(function)
+}
+#echo $(file)
