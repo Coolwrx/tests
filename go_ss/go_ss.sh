@@ -236,7 +236,8 @@ show_sslink(){
     sslink_protocol=$(echo "${sslink_user_info}"|sed -n "6p"|awk '{print $3}')
     sslink_obfs=$(echo "${sslink_user_info}"|sed -n "7p"|awk '{print $3}')
 
-    sslink_raw=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
+    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
+    sslink_raw_doname=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
     #群组名ifheart，节点名称LA，没加自定义功能
     sslink_raw_64=$(echo -n ${sslink_raw} | base64)
     sslink="ssr://${sslink_raw_64}"
