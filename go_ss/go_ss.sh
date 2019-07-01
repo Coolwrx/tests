@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.4.3'
+version='0.4.4'
 #定义程序文件夹位置
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -322,6 +322,12 @@ ssr_subscribe(){
 
 }
 
+update(){
+    rm go_ss.sh
+    wget https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/go_ss.sh && chmod +x go_ss.sh && bash go_ss.sh
+}
+
+
 help(){
     echo 'help menu
     没有帮助，暂时没有，嘻嘻'
@@ -350,6 +356,7 @@ echo "go_ss v${version} Shadowsocksr manyuser (debain only)
 4.ssr_install
 5.ssr_subscribe
 -------other-------
+a.update script
 Enter "help" to get help
 "
 display_color "choose a option: " g
@@ -367,6 +374,8 @@ case $command in
     4) ssr_install
     ;;
     5) ssr_subscribe
+    ;;
+    a) update
     ;;
     "help") help
     ;;
