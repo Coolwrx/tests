@@ -8,11 +8,11 @@
 
 version='0.4.1'
 #定义程序文件夹位置
-ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
-web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
+#ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
+#web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
 
-#ssr_root=~
-#web_root="/home/ss"
+ssr_root=~
+web_root="/home/ss"
 nginx_root="/etc/nginx"
 doname="ss.ifheart.tk"
 
