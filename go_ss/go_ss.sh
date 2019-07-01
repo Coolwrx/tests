@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.4.4'
+version='0.4.5'
 #定义程序文件夹位置
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -307,6 +307,8 @@ ssr_subscribe(){
 
                 printf "%s" ${web_sslink} > oh.txt
                 echo "" >> oh.txt   #加一个换行
+
+                printf "%s" ${web_sslink} > index.html
 
                 break
             fi
