@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.4.0'
+version='0.4.1'
 #定义程序文件夹位置
 ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -14,7 +14,7 @@ web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
 #ssr_root=~
 #web_root="/home/ss"
 nginx_root="/etc/nginx"
-doname="ifheart.tk"
+doname="ss.ifheart.tk"
 
 ssr_folder="${ssr_root}/shadowsocksr"
 
@@ -236,7 +236,7 @@ show_sslink(){
     sslink_protocol=$(echo "${sslink_user_info}"|sed -n "6p"|awk '{print $3}')
     sslink_obfs=$(echo "${sslink_user_info}"|sed -n "7p"|awk '{print $3}')
 
-    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
+    sslink_raw=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
     #群组名ifheart，节点名称LA，没加自定义功能
     sslink_raw_64=$(echo -n ${sslink_raw} | base64)
     sslink="ssr://${sslink_raw_64}"

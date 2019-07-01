@@ -22,7 +22,7 @@ v0.3.9
 Use "read" to get function name, call it directly
 
 ### get_user_info
-Use `mujson_mgr`.py to get users number and name, has one parameter(参数), incoming "show" to print(echo) user's name and port
+Use `mujson_mgr.py` to get users number and name, has one parameter(参数), incoming "show" to print(echo) user's name and port
 
 `get_user_info show`
 
