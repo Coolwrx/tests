@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.5.7.4'
+version='0.5.7.5'
 #定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -257,8 +257,8 @@ show_sslink(){
     sslink_group_64=$(echo -n ${sslink_group} | base64)
     sslink_city_64=$(echo -n ${city} ${sslink_port} | base64)
 
-    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=${sslink_city_64}&group=${sslink_group_64}")
-    sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=${sslink_city_64}&group=${sslink_group_64}")
+    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_city_64}&group=${sslink_group_64}")
+    sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_city_64}&group=${sslink_group_64}")
     #群组名ifheart，节点名称LA，没加自定义功能
     #要改!
     sslink_raw_64=$(echo -n ${sslink_raw_doname} | base64)  #echo -n 表示不换行输出
