@@ -334,7 +334,7 @@ ssr_subscribe(){
                 elif [ ${flag_clean} == 'n' ]; then
                     printf "%s" ${web_sslink} >> oh.txt
                     echo "" >> oh.txt   #加一个换行
-                if
+                fi
 
                 break
             fi
