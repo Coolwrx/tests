@@ -331,6 +331,7 @@ ssr_subscribe(){
                 web_sslink_all_64=$(cat sslink.all|base64)
                 #echo ${web_sslink_all}
                 #web_sslink_all_64=$(echo -n ${web_sslink_all}|base64)
+                #长字符串千万不要用echo，echo就™是个垃圾
                 rm sslink.all
 
                 cd "${web_root}"
