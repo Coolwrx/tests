@@ -1,13 +1,13 @@
 #!/bin/bash
 #安装ss
 #从设置好的文件中读取配置信息，生成“ssr://”的代码
-#进行base64加密后，保存为“oh.txt”，存至ifheart.tk的home目录
+#进行base64加密后，保存为“oh.txt”，存至ss.ifheart.tk的home目录
 
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.4.5'
-#定义程序文件夹位置
+version='0.4.6'
+#定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
 
@@ -15,6 +15,7 @@ ssr_root=~
 web_root="/home/ss"
 nginx_root="/etc/nginx"
 doname="ss.ifheart.tk"
+sslink_group="ifheart"
 
 ssr_folder="${ssr_root}/shadowsocksr"
 
@@ -78,9 +79,12 @@ display_color(){
 }
 
 say_hi(){
+    get_ip
+    get_city
     a="hello"   #等号前后不能有空格
     b="world!"
     echo "${a}$b"
+    echo "${ip} from ${city}"
 }
 
 get_ip(){
@@ -92,8 +96,19 @@ get_ip(){
         if [ ${1} == 'show' ]; then
             echo 本机IP地址为: ${ip}
         fi
+    fi    
+}
+
+get_city(){
+        city=$(wget -qO- -t1 -T2 ipinfo.io/city)
+    if [ -z ${ip} ]; then
+        city='找不到'
     fi
-    
+    if [ ${#} != 0 ]; then
+        if [ ${1} == 'show' ]; then
+            echo ip地址对应的地点为: ${city}
+        fi
+    fi
 }
 
 Environment_install(){
@@ -218,6 +233,8 @@ name_same(){
 
 show_sslink(){
     get_ip
+    get_city
+
     if [ ${#} == 0 ]; then
         display_color "No input, use 'auto_add'"
         sslink_user="auto_add"
@@ -236,11 +253,14 @@ show_sslink(){
     sslink_protocol=$(echo "${sslink_user_info}"|sed -n "6p"|awk '{print $3}')
     sslink_obfs=$(echo "${sslink_user_info}"|sed -n "7p"|awk '{print $3}')
 
-    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
-    sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=TEE&group=aWZoZWFydA")
+    sslink_group_64=$(echo -n ${sslink_group} | base64)
+    sslink_city_64=$(echo -n ${city} | base64)
+
+    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=${sslink_city_64}&group=${sslink_group_64}")
+    sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?obfsparam=&protoparam=&remarks=${sslink_city_64}&group=${sslink_group_64}")
     #群组名ifheart，节点名称LA，没加自定义功能
     #要改!
-    sslink_raw_64=$(echo -n ${sslink_raw_doname} | base64)
+    sslink_raw_64=$(echo -n ${sslink_raw_doname} | base64)  #echo -n 表示不换行输出
     sslink="ssr://${sslink_raw_64}"
     #printf "%s" ${sslink}
     web_sslink=$(printf "%s" ${sslink} | base64)
