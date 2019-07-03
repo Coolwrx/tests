@@ -303,15 +303,38 @@ ssr_subscribe(){
     get_user_info
     if [ ${user_info_num} > 0 ]; then
         display_color "${user_info}"
-        echo -n "choose a user: "
+        echo -n "choose a user, no input for all: "
         while true
         do
             read input
             #这样写有bug，用户名不能是'y'，y被作为break整个循环的参数
+
+            if [ "${input}" = '' ]; then
+                display_color 'Write all users'
+
+                cd "${ssr_root}"
+                for ((i=1; i<="${user_info_num}"; i++))
+                do                    
+                    show_sslink $(echo "${user_info}"|sed -n "ip"|awk '{print $2}')
+                    printf "%s" ${web_sslink} >> sslink.all
+                    echo "" >> sslink.all
+                done
+
+                web_sslink_all < sslink.all
+                rm sslink.all
+
+                cd "${web_root}"
+                printf "%s" ${web_sslink_all} > oh.txt
+
+
+            fi
+
+
             if [ "${input}" = 'y' ]; then
                 echo 'exit'
                 break
             fi
+
             name_check "${input}"   #检查用户名是否存在
             if [ $? == 0 ]; then
                 echo -e "User not found, exit?(y/another name)"
@@ -326,6 +349,8 @@ ssr_subscribe(){
                 cd "${web_root}"
 
                 #选择要不要覆盖原来的内容
+                    #没有意义，客户端通过换行符识别多个订阅，要一起加密
+ :<<DOC'
                 display_color "Rewrite?(y/n)"
                 read flag_clean
                 if [ ${flag_clean} == 'y' ]; then
@@ -335,6 +360,11 @@ ssr_subscribe(){
                     printf "%s" ${web_sslink} >> oh.txt
                     echo "" >> oh.txt   #加一个换行
                 fi
+DOC'
+
+
+                printf "%s" ${web_sslink} > oh.txt
+                echo "" >> oh.txt   #加一个换行
 
                 break
             fi
