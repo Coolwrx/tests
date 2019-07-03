@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.5.7.3'
+version='0.5.7.4'
 #定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -314,6 +314,7 @@ ssr_subscribe(){
                 display_color 'Write all users'
 
                 cd "${ssr_root}"
+                rm sslink.all
                 for ((i=1; i<="${user_info_num}"; i++))
                 do                    
                     name=$(echo "${user_info}"|sed -n "${i}p"|awk '{print $2}')
@@ -322,7 +323,6 @@ ssr_subscribe(){
 
                     show_sslink "${name}"
                     #sslink=${sslink%%=}
-                    rm sslink.all
                     printf "%s" ${sslink} >> sslink.all
                     #如果上一行sslink左右加了引号，就会自动换行，不知道为什么
                     echo "" >> sslink.all
