@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.5.1'
+version='0.5.2'
 #定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -317,15 +317,17 @@ ssr_subscribe(){
                 do                    
                     name=$(echo "${user_info}"|sed -n "${i}p"|awk '{print $2}')
                     show_sslink "${name}"
-                    printf "%s" ${web_sslink} >> sslink.all
+                    printf "%s" ${sslink} >> sslink.all
                     echo "" >> sslink.all
                 done
 
                 web_sslink_all=$(cat sslink.all)
+                echo web_sslink_all
+                web_sslink_all_64=$(echo -n ${web_sslink_all} | base64)
                 rm sslink.all
 
                 cd "${web_root}"
-                printf "%s" ${web_sslink_all} > oh.txt
+                printf "%s" ${web_sslink_all_64} > oh.txt
 
                 break
 
