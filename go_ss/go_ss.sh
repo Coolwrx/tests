@@ -45,7 +45,7 @@ get_user_info(){
     fi
 }
 
-#显示函数，参数1为要显示的文本内容，参数2是颜色（默认y）
+#显示函数，参数1为要显示的文本内容，参数2是颜色（默认r）
 #颜色：r, g, b, y
 display_color(){
     display_text=${1}
@@ -316,7 +316,7 @@ ssr_subscribe(){
             if [ $? == 0 ]; then
                 echo -e "User not found, exit?(y/another name)"
             elif [ $? == 1 ]; then
-                echo "User ${input} found"
+                display_color "User ${input} found" y
                 show_sslink "${input}"
 
                 #写入到网站根目录
@@ -325,10 +325,16 @@ ssr_subscribe(){
                 fi
                 cd "${web_root}"
 
-                printf "%s" ${web_sslink} > oh.txt
-                echo "" >> oh.txt   #加一个换行
-
-                printf "%s" ${web_sslink} > index.html
+                #选择要不要覆盖原来的内容
+                display_color "Rewrite?(y/n)"
+                read flag_clean
+                if [ ${flag_clean} == 'y' ]
+                    printf "%s" ${web_sslink} > oh.txt
+                    echo "" >> oh.txt   #加一个换行
+                elif [ ${flag_clean} == 'n' ]
+                    printf "%s" ${web_sslink} >> oh.txt
+                    echo "" >> oh.txt   #加一个换行
+                if
 
                 break
             fi
