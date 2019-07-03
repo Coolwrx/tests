@@ -250,21 +250,21 @@ show_sslink(){
     sslink_port=$(echo "${sslink_user_info}"|sed -n "3p"|awk '{print $3}')
     sslink_method=$(echo "${sslink_user_info}"|sed -n "4p"|awk '{print $3}')
     sslink_passwd=$(echo "${sslink_user_info}"|sed -n "5p"|awk '{print $3}')
-    sslink_passwd_64=$(echo "${sslink_passwd}" | base64)
+    sslink_passwd_64=$(echo "${sslink_passwd}"|base64)
     sslink_protocol=$(echo "${sslink_user_info}"|sed -n "6p"|awk '{print $3}')
     sslink_obfs=$(echo "${sslink_user_info}"|sed -n "7p"|awk '{print $3}')
 
-    sslink_group_64=$(echo -n ${sslink_group} | base64)
-    sslink_city_64=$(echo -n ${city} ${sslink_port} | base64)
+    sslink_group_64=$(echo -n ${sslink_group}|base64)
+    sslink_city_64=$(echo -n ${city} ${sslink_port}|base64)
 
     sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_city_64}&group=${sslink_group_64}")
     sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_city_64}&group=${sslink_group_64}")
     #群组名ifheart，节点名称LA，没加自定义功能
     #要改!
-    sslink_raw_64=$(echo -n ${sslink_raw_doname} | base64)  #echo -n 表示不换行输出
+    sslink_raw_64=$(echo -n ${sslink_raw_doname}|base64)  #echo -n 表示不换行输出
     sslink="ssr://${sslink_raw_64}"
     #printf "%s" ${sslink}
-    web_sslink=$(printf "%s" ${sslink} | base64)
+    web_sslink=$(printf "%s" ${sslink}|base64)
 
     #if [ ! -d "${web_root}" ]; then
     #    mkdir "${web_root}"
@@ -330,7 +330,7 @@ ssr_subscribe(){
 
                 web_sslink_all=$(cat sslink.all)
                 #echo ${web_sslink_all}
-                web_sslink_all_64=$(echo -n ${web_sslink_all} | base64)
+                web_sslink_all_64=$(echo -n ${web_sslink_all}|base64)
                 rm sslink.all
 
                 cd "${web_root}"
