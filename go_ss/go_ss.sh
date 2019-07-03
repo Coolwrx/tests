@@ -350,18 +350,6 @@ ssr_subscribe(){
 
                 #选择要不要覆盖原来的内容
                     #没有意义，客户端通过换行符识别多个订阅，要一起加密
- :<<DOC'
-                display_color "Rewrite?(y/n)"
-                read flag_clean
-                if [ ${flag_clean} == 'y' ]; then
-                    printf "%s" ${web_sslink} > oh.txt
-                    echo "" >> oh.txt   #加一个换行
-                elif [ ${flag_clean} == 'n' ]; then
-                    printf "%s" ${web_sslink} >> oh.txt
-                    echo "" >> oh.txt   #加一个换行
-                fi
-DOC'
-
 
                 printf "%s" ${web_sslink} > oh.txt
                 echo "" >> oh.txt   #加一个换行
