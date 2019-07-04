@@ -244,6 +244,8 @@ show_sslink(){
         display_color "Use ${sslink_user}"
     fi
 
+####所有base64加密的单个参数，都要去掉末尾的=号####
+
     cd "${ssr_folder}"
     sslink_user_info=$(python mujson_mgr.py -l -u ${sslink_user})
     #echo "${sslink_user_info}"
@@ -251,17 +253,20 @@ show_sslink(){
     sslink_method=$(echo "${sslink_user_info}"|sed -n "4p"|awk '{print $3}')
     sslink_passwd=$(echo "${sslink_user_info}"|sed -n "5p"|awk '{print $3}')
     sslink_passwd_64=$(echo "${sslink_passwd}"|base64)
+    sslink_passwd_64=${sslink_passwd_64%%=*}
     sslink_protocol=$(echo "${sslink_user_info}"|sed -n "6p"|awk '{print $3}')
     sslink_obfs=$(echo "${sslink_user_info}"|sed -n "7p"|awk '{print $3}')
 
     sslink_group_64=$(echo -n ${sslink_group}|base64)
-    sslink_group_64=${sslink_group_64%%=}   #删除末尾的等于号
-    sslink_city_64=$(echo -n ${city} ${sslink_port}|base64)
+    sslink_group_64=${sslink_group_64%%=*}   #删除末尾的等于号
+    sslink_remarks_64=$(echo -n ${city} ${sslink_port}|base64)
+    sslink_remarks_64=${sslink_remarks_64%%=*}
 
-    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_city_64}&group=${sslink_group_64}")
-    sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_city_64}&group=${sslink_group_64}")
-    #群组名ifheart，节点名称LA，没加自定义功能
-    #要改!
+    sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_remarks_64}&group=${sslink_group_64}")
+    sslink_raw_doname=$(echo "${doname}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_remarks_64}&group=${sslink_group_64}")
+        #群组名ifheart，节点名称LA，没加自定义功能
+        #要改!
+    #改好了！
     sslink_raw_64=$(echo -n ${sslink_raw_doname}|base64)  #echo -n 表示不换行输出
     sslink="ssr://${sslink_raw_64}"
     #printf "%s" ${sslink}
@@ -319,8 +324,9 @@ ssr_subscribe(){
                 for ((i=1; i<="${user_info_num}"; i++))
                 do                    
                     name=$(echo "${user_info}"|sed -n "${i}p"|awk '{print $2}')
-                    name=${name#[}  #删除第一个[号，和他左边的所有内容
-                    name=${name%]}  #删除第一个]号，和他右边的所有内容
+                    name=${name#[}  #删除从左往右的第一个[号
+                    name=${name%]}  #删除从右往左的第一个]号
+                    #如果要以某个符号为标记删除某侧的所有字符，则加上*号
 
                     show_sslink "${name}"
                     #sslink=${sslink%%=}
