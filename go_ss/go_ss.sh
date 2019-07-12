@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.5.8.1'
+version='0.5.8.2'
 #定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -102,8 +102,8 @@ get_ip(){
 get_city(){
         city=$(wget -qO- -t1 -T2 ipinfo.io/city)
         region=$(wget -qO- -t1 -T2 ipinfo.io/region)
-    if [ -z ${city} ]; then
-        ${city}='找不到'
+    if [ -z "${city}" ]; then
+        city='找不到'
     fi
     if [ ${#} != 0 ]; then
         if [ ${1} == 'show' ]; then
