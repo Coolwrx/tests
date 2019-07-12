@@ -174,7 +174,7 @@ add_user(){
     echo "正在自动添加用户..."
     name_check "auto_add"
     if [ $? == 0 ]; then
-        python mujson_mgr.py -a -u auto_add -p 9527 -k bwt67.h?r.fsg -m aes-256-ctr -O auth_chain_a -o tls1.2_ticket_auth
+        python mujson_mgr.py -a -u auto_add -p 30138 -k cptbtptp -m aes-256-ctr -O auth_chain_a -o tls1.2_ticket_auth
     else
         echo "auto_add 已存在"
     fi
