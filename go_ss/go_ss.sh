@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.5.8'
+version='0.5.8.1'
 #定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -117,7 +117,7 @@ get_city(){
 ask(){
     ask_words=${1}
     ask_color='g'
-    if [ ${#} == '2' ]; then ask_color=${2}
+    if [ ${#} == '2' ]; then ask_color=${2} fi
     display_color "${ask_words} (y/n)" ${ask_color}
     read ask_input
     if [ "${ask_input}" == 'y' ]; then
@@ -289,7 +289,7 @@ show_sslink(){
     ask "Write subscribe with ip(y)/domain(n)?"
     if [ $? == 0 ]; then
         sslink_raw_64=$(echo -n ${sslink_raw_doname}|base64)  #echo -n 表示不换行输出
-    elif [ $? == 1]; then
+    elif [ $? == 1 ]; then
         sslink_raw_64=$(echo -n ${sslink_raw}|base64)
     fi
     sslink="ssr://${sslink_raw_64}"
