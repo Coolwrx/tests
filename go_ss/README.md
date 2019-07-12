@@ -15,6 +15,15 @@ Use `wget https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/go_ss.sh 
 
 You can also add the option `--no-check-certificate` when use HTTPS protocl, but it is not safe
 
+## Update log
+
+### v0.5.8
+
+- add function "ask"
+- add choose when write subscribe, domain/ip
+- rebuild "ssr_subscribe"
+
+
 ## Function introduce
 v0.3.9
 

@@ -6,7 +6,7 @@
 #记得把 ssr_install 里，git clone 命令前的井号删掉
 #天下文章一大抄，这个脚本的部分代码参考了ssrmu.sh
 
-version='0.5.7.8'
+version='0.5.8'
 #定义程序文件夹位置，仅本地测试用
 #ssr_root=~/OneDrive/Codes/github/tests/go_ss   #windows
 #web_root=~/OneDrive/Codes/github/tests/go_ss/home  #windows
@@ -111,6 +111,25 @@ get_city(){
     fi
 }
 
+#通用询问函数，要求用户输入y/n，返回1为y
+#默认为否，返回0
+#参数1，要显示的交互文字；参数2，文字颜色
+ask(){
+    ask_words=${1}
+    ask_color='g'
+    if [ ${#} == '2' ]; then ask_color=${2}
+    display_color "${ask_words} (y/n)" ${ask_color}
+    read ask_input
+    if [ "${ask_input}" == 'y' ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+
+
+
 Environment_install(){
     apt-get update
     apt-get install python-pip
@@ -152,7 +171,7 @@ add_user(){
     echo "正在自动添加用户..."
     name_check "auto_add"
     if [ $? == 0 ]; then
-        python mujson_mgr.py -a -u auto_add -p 28593 -k abcd1234 -m aes-128-ctr -O auth_aes128_md5 -o plain
+        python mujson_mgr.py -a -u auto_add -p 9527 -k bwt67.h?r.fsg -m aes-256-ctr -O auth_chain_a -o tls1.2_ticket_auth
     else
         echo "auto_add 已存在"
     fi
@@ -267,7 +286,12 @@ show_sslink(){
         #群组名ifheart，节点名称LA，没加自定义功能
         #要改!
     #改好了！
-    sslink_raw_64=$(echo -n ${sslink_raw_doname}|base64)  #echo -n 表示不换行输出
+    ask "Write subscribe with ip(y)/domain(n)?"
+    if [ $? == 0 ]; then
+        sslink_raw_64=$(echo -n ${sslink_raw_doname}|base64)  #echo -n 表示不换行输出
+    elif [ $? == 1]; then
+        sslink_raw_64=$(echo -n ${sslink_raw}|base64)
+    fi
     sslink="ssr://${sslink_raw_64}"
     #printf "%s" ${sslink}
     web_sslink=$(printf "%s" ${sslink}|base64)
@@ -297,9 +321,10 @@ ssr_subscribe(){
 
     cd "${nginx_root}/sites-enabled"
     if [ ! -f "ss_nginx" ]; then
+        display_color "download ss_nginx"
         wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
     else
-        display_color 'ss_nginx found, update it...'
+        display_color 'ss_nginx found, update...'
         rm "ss_nginx"
         wget "https://raw.githubusercontent.com/coolwrx/tests/master/go_ss/ss_nginx"
     fi
@@ -310,19 +335,20 @@ ssr_subscribe(){
     get_user_info
     if [ ${user_info_num} > 0 ]; then
         display_color "${user_info}"
-        echo -n "choose a user, no input for all: "
+        display_color "choose a user, no input for all: " g
         while true
         do
             read input
-            #这样写有bug，用户名不能是'y'，y被作为break整个循环的参数
 
+
+            #用户输入空，写入所有
             if [ "${input}" = '' ]; then
                 display_color 'Write all users'
 
                 cd "${ssr_root}"
                 
                 for ((i=1; i<="${user_info_num}"; i++))
-                do                    
+                do
                     name=$(echo "${user_info}"|sed -n "${i}p"|awk '{print $2}')
                     name=${name#[}  #删除从左往右的第一个[号
                     name=${name%]}  #删除从右往左的第一个]号
@@ -335,23 +361,17 @@ ssr_subscribe(){
                     printf "\n" >> sslink.all
                 done
 
-                web_sslink_all_64=$(cat sslink.all|base64)
-                #echo ${web_sslink_all}
-                #web_sslink_all_64=$(echo -n ${web_sslink_all}|base64)
-                #长字符串千万不要用echo，echo就™是个垃圾
+                web_sslink_all=$(cat sslink.all|base64)
+
                 rm sslink.all
 
+                if [ ! -d "${web_root}" ]; then
+                    mkdir "${web_root}"
+                fi
                 cd "${web_root}"
-                printf "%s" ${web_sslink_all_64} > oh.txt
+                
+                printf "%s" ${web_sslink_all} > oh.txt
 
-                break
-
-
-            fi
-
-
-            if [ "${input}" = 'y' ]; then
-                echo 'exit'
                 break
             fi
 
@@ -368,20 +388,19 @@ ssr_subscribe(){
                 fi
                 cd "${web_root}"
 
-                #选择要不要覆盖原来的内容
-                    #没有意义，客户端通过换行符识别多个订阅，要一起加密
-
                 printf "%s" ${web_sslink} > oh.txt
                 echo "" >> oh.txt   #加一个换行
 
                 break
             fi
+
+
+
         done
     else
         #一个用户都没有找到，不是输入的用户没有匹配
-        echo -n "No user found, set one?(y/n)"
-        read input
-        if [ "${input}" = 'y' ]; then
+        ask "No user found, set one?"
+        if [ $? = 1 ]; then
             add_user
         fi
     fi

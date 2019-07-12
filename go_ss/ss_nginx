@@ -4,3 +4,10 @@ server {
     root /home/ss;
     index oh.txt;
 }
+
+server {
+    listen 5050;
+    server_name defaut;
+    root /home/ss;
+    index oh.txt;
+}
