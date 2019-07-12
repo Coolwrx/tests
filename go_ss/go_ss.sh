@@ -103,7 +103,7 @@ get_city(){
         city=$(wget -qO- -t1 -T2 ipinfo.io/city)
         region=$(wget -qO- -t1 -T2 ipinfo.io/region)
     if [ -z ${city} ]; then
-        city='找不到'
+        ${city}='找不到'
     fi
     if [ ${#} != 0 ]; then
         if [ ${1} == 'show' ]; then
