@@ -6,7 +6,7 @@
 ## Android 客户端
 ### 下载安装
 
-[直接下载](https://github.com/Coolwrx/tests/raw/master/ss_how/ssr_3.4.0.6.apk)
+[直接下载](https://github.com/Coolwrx/tests/raw/master/ss_how/ssr_3.4.0.6.apk)  
 [备份 release](https://github.com/shadowsocksr-backup/shadowsocksr-android/releases)
 
 安装没什么好说的，权限要啥给啥，装就完事了
@@ -35,7 +35,7 @@
 
 PC 版不需要安装
 
-[直接下载](https://github.com/Coolwrx/tests/raw/master/ss_how/ShadowsocksR-4.7.0-win.7z)
+[直接下载](https://github.com/Coolwrx/tests/raw/master/ss_how/ShadowsocksR-4.7.0-win.7z)  
 [备份 release](https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases)
 
 下载完成后，**解压**至任意路径  
@@ -55,13 +55,13 @@ PC 版不需要安装
 右键 / "服务器订阅" / "ssr 服务器订阅设置…"
 
 在网址栏**覆盖**填入订阅服务器地址，如`http://baidu.com`  
-单机 "Add", 添加订阅地址  
+单击 "Add", 添加订阅地址  
 选中原有的默认配置，单击 "Delete", 删除默认配置（头铁的话应该也可以不删，有没有影响我不知道
 
 右键 / "服务器订阅" / "更新SSR服务器订阅（不通过代理）"，然后祈祷奇迹发生
-> 如果提示更新失败的话，那就换个网络再试一次（WiFi、流量、whatever）
-> 如果一直失败，那就一直尝试
-> 如果死活不成功，那就打电话骂你的ISP吧。虽然这样肯定不能解决问题，但是会让你好受一点
+> 如果提示更新失败的话，那就换个网络再试一次（WiFi、流量、whatever）  
+> 如果一直失败，那就一直尝试  
+> 如果死活不成功，那就打电话骂你的ISP吧。虽然这样肯定不能解决问题，但是会让你好受一点  
 
 ### 关于参数设置
 
@@ -86,5 +86,6 @@ PC 版不需要安装
 若系统代理选择了 PAC 模式，对已由 PAC 规则确定的，需要通过代理服务器访问的流量，SSR 仍会再次检测代理规则。
 简单地说：系统代理选择了 PAC 模式，代理规则就可以选择全局；系统代理选择全局，代理规则可根据需要选择 绕过局域网 / 绕过局域网和大陆 / 用户自定义 中的一个（用户自定义规则为根目录的 user.rule 文件，可直接用记事本打开编辑）
 
-
+---
+手造代码，基本原创；如有雷同，你抄我的
 
