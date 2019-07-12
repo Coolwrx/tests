@@ -101,12 +101,13 @@ get_ip(){
 
 get_city(){
         city=$(wget -qO- -t1 -T2 ipinfo.io/city)
-    if [ -z ${ip} ]; then
+        region=$(wget -qO- -t1 -T2 ipinfo.io/region)
+    if [ -z ${city} ]; then
         city='找不到'
     fi
     if [ ${#} != 0 ]; then
         if [ ${1} == 'show' ]; then
-            echo ip地址对应的地点为: ${city}
+            echo ip地址对应的地点为: ${city} / ${region}
         fi
     fi
 }
@@ -262,7 +263,7 @@ show_sslink(){
     else
         sslink_user="${1}"
         #这里应该加一个名称确认
-        display_color "Use ${sslink_user}"
+        display_color "Show_sslink ${sslink_user}"
     fi
 
 ####所有base64加密的单个参数，都要去掉末尾的=号####
@@ -280,7 +281,7 @@ show_sslink(){
 
     sslink_group_64=$(echo -n ${sslink_group}|base64)
     sslink_group_64=${sslink_group_64%%=*}   #删除末尾的等于号
-    sslink_remarks_64=$(echo -n ${city} ${sslink_port}|base64)
+    sslink_remarks_64=$(echo -n ${region} ${sslink_port}|base64)
     sslink_remarks_64=${sslink_remarks_64%%=*}
 
     sslink_raw=$(echo "${ip}:${sslink_port}:${sslink_protocol}:${sslink_method}:${sslink_obfs}:${sslink_passwd_64}/?remarks=${sslink_remarks_64}&group=${sslink_group_64}")
@@ -295,13 +296,7 @@ show_sslink(){
         sslink_raw_64=$(echo -n ${sslink_raw}|base64)
     fi
     sslink="ssr://${sslink_raw_64}"
-    #printf "%s" ${sslink}
     web_sslink=$(printf "%s" ${sslink}|base64)
-
-    #if [ ! -d "${web_root}" ]; then
-    #    mkdir "${web_root}"
-    #fi
-    #cd "${web_root}"
 
     #不能用echo，会自动换行
     #双引号会影响输出结果
@@ -310,8 +305,6 @@ show_sslink(){
     #echo "${web_sslink}"
 
     #功能隔离，写文件的语句放到ssr_subscribe里，用全局变量传递信息
-    #printf "%s" ${web_sslink} > oh.txt
-    #echo "" >> oh.txt   #加一个换行
 }
 
 ssr_subscribe(){
