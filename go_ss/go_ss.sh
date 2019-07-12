@@ -117,7 +117,9 @@ get_city(){
 ask(){
     ask_words=${1}
     ask_color='g'
-    if [ ${#} == '2' ]; then ask_color=${2} fi
+    if [ ${#} == '2' ]; then
+    ask_color=${2}
+    fi
     display_color "${ask_words} (y/n)" ${ask_color}
     read ask_input
     if [ "${ask_input}" == 'y' ]; then
